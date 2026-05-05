@@ -2298,3 +2298,126 @@ body.menu-open {
     width: 100%;                /* 🔥 garanti */
     max-width: 360px;           /* 🔥 hero ile aynı */
 }
+/* =========================================
+   RESIDENCE PAGE – SOCIAL PROOF (FINAL SYSTEM)
+========================================= */
+
+#residence-page .proof-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;            /* card arası */
+    margin-top: 32px;     /* section ritmi (24 → 32 upgrade) */
+}
+
+#residence-page .proof-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 16px;        /* ana iç boşluk */
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;            /* içerik arası */
+
+    transition: var(--transition);
+}
+
+#residence-page .proof-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-soft);
+}
+
+/* 👤 USER HEADER */
+#residence-page .proof-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;            /* 10 → 12 (sisteme oturdu) */
+}
+
+/* avatar */
+#residence-page .proof-user img {
+    width: 40px;          /* 8px grid → 40 = 5x8 */
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* name */
+#residence-page .proof-user strong {
+    font-size: var(--text-sm);
+    color: var(--text-primary);
+    display: block;
+    line-height: 1.2;
+}
+
+/* location */
+#residence-page .proof-user span {
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+}
+
+/* divider */
+#residence-page .proof-divider {
+    height: 1px;
+    background: var(--border-color);
+    margin: 8px 0;        /* 🔥 kritik: 0 → 8 */
+}
+
+/* text */
+#residence-page .proof-text {
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    color: var(--text-primary);
+}
+
+/* stars */
+#residence-page .proof-stars {
+    font-size: var(--text-sm);
+    letter-spacing: 2px;
+    color: #f59e0b;
+}
+
+/* section closing note */
+#residence-page .proof-grid + .process-note {
+    margin-top: 24px;     /* 16 → 24 (daha premium kapanış) */
+}
+/* =========================================
+   RESIDENCE PAGE – FINAL CTA
+========================================= */
+
+#residence-page .section:last-of-type {
+    text-align: center;
+}
+
+/* başlık */
+#residence-page .section:last-of-type .section-title {
+    margin-bottom: 12px;   /* 8-12 scale */
+}
+
+/* subtitle */
+#residence-page .section:last-of-type .section-subtitle {
+    font-size: var(--text-md);
+    margin-bottom: 24px;   /* 🔥 ana boşluk */
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* CTA button alanı */
+#residence-page .section:last-of-type .process-cta {
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: center;
+}
+
+/* button zaten global → sadece hizalama */
+#residence-page .section:last-of-type .btn-main {
+    max-width: 360px;
+}
+
+/* reassurance */
+#residence-page .section:last-of-type .micro-reassurance {
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+    margin-top: 8px;
+}

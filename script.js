@@ -102,16 +102,21 @@ function trackLead(label, callback) {
 
 
 // =========================================
-// 3. CTA TRACKING (FINAL)
+// 3. CTA TRACKING (FIXED)
 // =========================================
-const ctaButtons = document.querySelectorAll('[data-cta]:not(button[type="submit"])');
+const ctaButtons = document.querySelectorAll('a[data-cta]');
 
 ctaButtons.forEach(btn => {
     btn.addEventListener('click', (e) => {
+
+        const href = btn.getAttribute('href');
+
+        // 🔥 INTERNAL LINKSE DOKUNMA
+        if (href && href.startsWith("#")) return;
+
         e.preventDefault();
 
         const label = btn.getAttribute('data-cta') || 'CTA Click';
-        const href = btn.getAttribute('href');
 
         trackLead(label, () => {
             if (href) {
