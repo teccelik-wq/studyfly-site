@@ -410,6 +410,66 @@ body.menu-open {
     overflow: hidden;
 }
 /* =========================================
+   HERO → RESIDENCE INLINE CTA
+========================================= */
+
+.residence-redirect {
+    margin-top: 28px;
+    text-align: center;
+    max-width: 480px;
+}
+
+/* üst text (soft trigger) */
+.redirect-text {
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+    opacity: 0.9;
+}
+
+/* title */
+.redirect-title {
+    font-size: var(--text-lg);
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 12px;
+    color: var(--text-primary);
+}
+
+/* button */
+.residence-redirect .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 12px 20px;
+
+    border-radius: 999px;
+    border: 1px solid var(--border-color);
+
+    font-size: var(--text-sm);
+    font-weight: 700;
+
+    background: transparent;
+    color: var(--color-accent);
+
+    min-height: 40px;
+
+    transition: var(--transition);
+}
+
+/* hover */
+.residence-redirect .btn-secondary:hover {
+    background: var(--color-accent);
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+/* active */
+.residence-redirect .btn-secondary:active {
+    transform: scale(0.96);
+}
+/* =========================================
    HERO SECTION (OPTIMIZED)
 ========================================= */
 
@@ -544,6 +604,94 @@ body.menu-open {
     font-weight: 600;
     font-size: 0.85rem;
 }
+/* =========================================
+   HERO DIVIDER (SYSTEM MATCH)
+========================================= */
+
+.hero-divider {
+    width: 64px; /* process ile aynı grid */
+    height: 4px;
+
+    margin: 32px auto 24px;
+
+    background: var(--color-accent);
+    opacity: 0.25;
+
+    border-radius: 2px;
+}
+/* =========================================
+   RESIDENCE REDIRECT (INLINE HERO CTA)
+========================================= */
+
+.residence-redirect {
+    text-align: center;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 24px;
+}
+
+/* small intro */
+.redirect-text {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+    opacity: 0.85;          /* biraz daha soft */
+    font-weight: 600;
+    letter-spacing: 0.01em; /* 0.02 → düşürdük */
+}
+
+/* title */
+.redirect-title {
+    font-size: var(--text-lg);
+    font-weight: 700;
+    line-height: 1.4;
+
+    max-width: 460px;
+    margin-left: auto;
+    margin-right: auto;
+
+    margin-bottom: 12px;
+    color: var(--text-primary);
+
+    letter-spacing: -0.01em;
+}
+
+/* button (secondary CTA) */
+.residence-redirect .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 12px 20px;
+
+    border-radius: 999px;
+    border: 1px solid var(--border-color);
+
+    font-size: var(--text-sm);
+    font-weight: 700;
+
+    background: var(--color-ice-blue); /* ✅ artık dolu ama soft */
+    color: var(--color-accent);
+
+    min-height: 40px;
+
+    transition: var(--transition);
+}
+
+/* hover */
+.residence-redirect .btn-secondary:hover {
+    background: var(--color-accent);
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-soft);
+}
+.residence-redirect .btn-secondary:active {
+    transform: scale(0.96);
+}
+
+
+
 
 /* =========================================
    WHY US SECTION (GOLDEN SYSTEM)
