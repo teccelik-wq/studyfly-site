@@ -409,6 +409,32 @@ body.menu-open .hamburger-line:nth-child(3) {
 body.menu-open {
     overflow: hidden;
 }
+/* =========================================
+   LANGUAGE SWITCHER
+========================================= */
+
+.language-switcher{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-right:14px;
+}
+
+.language-switcher a{
+    text-decoration:none;
+    font-size:.8rem;
+    font-weight:700;
+    color:var(--text-secondary);
+    transition:.2s;
+}
+
+.language-switcher a:hover{
+    color:var(--color-accent);
+}
+
+.language-switcher a.active{
+    color:var(--color-accent);
+}
 
 /* =========================================
    HERO SECTION (OPTIMIZED)
@@ -1284,6 +1310,21 @@ body.menu-open {
 .result-stars {
     font-size: 0.9rem;
     letter-spacing: 2px;
+}
+/* =========================================
+   ARABIC RESULTS FIX
+========================================= */
+
+html[lang="ar"] .result-badge{
+    right: 82px;
+}
+
+html[lang="ar"] .result-user{
+    flex-direction: row-reverse;
+}
+
+html[lang="ar"] .result-user div{
+    text-align: right;
 }
 
 /* =========================================
