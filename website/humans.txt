@@ -1,0 +1,23 @@
+/* TEAM */
+
+StudyFly
+https://studyfly.tr
+
+Founder:
+Hale Çelik
+
+Website Design & Development:
+Emre Çelik
+Emre Çelik Digital
+https://emrecelikdigital.com
+
+/* TECHNOLOGY */
+
+HTML
+CSS
+JavaScript
+Vercel
+
+/* LOCATION */
+
+Istanbul, Turkey

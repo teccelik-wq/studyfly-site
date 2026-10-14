@@ -1,7 +1,0 @@
-{
-  "routes": [
-    { "handle": "filesystem" },
-    { "src": "/residence", "dest": "/residence/index.html" },
-    { "src": "/.*", "dest": "/index.html" }
-  ]
-}
