@@ -1,7 +1,5 @@
 # DirectAdmin / Apache / LiteSpeed: upload this file with the website contents.
 DirectoryIndex index.html
-# Retired residence landing page: exact legacy URLs only.
-RedirectMatch 301 ^/residence(?:/index\.html)?/?$ https://studyfly.tr/
 ErrorDocument 404 /404.html
 <IfModule mod_mime.c>
     AddType font/woff2 .woff2

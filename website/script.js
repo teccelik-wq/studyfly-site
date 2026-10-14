@@ -19,7 +19,7 @@
   const background = [...document.querySelectorAll('main, footer, .whatsapp-sticky')];
   let menuOpen = false;
 
-  // Residence has no drawer: keep every handler safe when these elements are absent.
+  // Keep navigation safe when these optional controls are absent.
   const setMenu = (open, returnFocus = false) => {
     if (!menu || !menuButton) return;
     menuOpen = Boolean(open) && !wide.matches;
@@ -29,7 +29,7 @@
     menuButton.setAttribute('aria-expanded', String(menuOpen));
     menuButton.setAttribute('aria-label', menuOpen ? text.close : text.open);
     for (const element of background) element.inert = menuOpen;
-    if (menuOpen) menu.querySelector('a')?.focus();
+    if (menuOpen) menu.querySelector('a')?.focus({ preventScroll: true });
     else if (returnFocus) menuButton.focus();
   };
   if (menu && menuButton) {
@@ -38,20 +38,95 @@
     wide.addEventListener('change', () => setMenu(false));
     document.addEventListener('click', event => {
       const link = event.target instanceof Element ? event.target.closest('a') : null;
-      if (menuOpen && (link?.closest('.main-header') || !(event.target instanceof Element && event.target.closest('.main-header')))) setMenu(false);
+      const outside = event.target instanceof Element && (event.target.closest('.menu-backdrop') || !event.target.closest('.main-header'));
+      if (menuOpen && outside) setMenu(false, true);
+      else if (menuOpen && link?.closest('.main-header')) setMenu(false);
     });
     document.addEventListener('keydown', event => {
       if (!menuOpen) return;
       if (event.key === 'Escape') { event.preventDefault(); setMenu(false, true); }
       if (event.key !== 'Tab') return;
       const header = document.querySelector('.main-header');
-      const items = [...header.querySelectorAll('a, button:not([disabled])')].filter(element => element.getClientRects().length);
+      const items = [...header.querySelectorAll('a, button:not([disabled])')].filter(element => element.getClientRects().length && getComputedStyle(element).visibility !== 'hidden' && !element.closest('[inert]'));
       const first = items[0], last = items.at(-1);
       if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
       else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
     });
   }
 
+
+
+  // Clean section routes reuse the current localized homepage; no content fetches.
+  const sectionIDs = new Set(['why-us', 'how-it-works', 'services', 'results', 'faq', 'contact']);
+  const homePath = language === 'en' ? '/' : `/${language}/`;
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let scrollRequest = 0;
+  const routeForPath = pathname => {
+    const section = pathname.match(/^\/(?:(ar|ru)\/)?(why-us|how-it-works|services|results|faq|contact)\/?$/);
+    if (section) return { language: section[1] || 'en', id: section[2], path: `${section[1] ? `/${section[1]}` : ''}/${section[2]}/` };
+    if (pathname === homePath || pathname === homePath.slice(0, -1) || pathname === `${homePath}index.html`) return { language, id: 'home', path: homePath };
+    return null;
+  };
+  const focusSection = target => {
+    const temporary = !target.hasAttribute('tabindex');
+    if (temporary) target.setAttribute('tabindex', '-1');
+    target.focus({ preventScroll: true });
+    if (temporary) target.addEventListener('blur', () => target.removeAttribute('tabindex'), { once: true });
+  };
+  const scrollToSection = (id, behavior, focus = false) => {
+    const target = document.getElementById(id);
+    if (!target) return;
+    if (focus) focusSection(target);
+    const headerHeight = document.querySelector('.main-header')?.getBoundingClientRect().height || 0;
+    const top = id === 'home' || id === 'main' ? 0 : Math.max(0, target.getBoundingClientRect().top + window.scrollY - headerHeight - 20);
+    window.scrollTo({ top, behavior: reducedMotion.matches ? 'instant' : behavior });
+  };
+  const queueSectionScroll = (id, behavior = 'instant', focus = false) => {
+    const request = ++scrollRequest;
+    (document.fonts?.ready || Promise.resolve()).then(() => {
+      window.requestAnimationFrame(() => { if (request === scrollRequest) scrollToSection(id, behavior, focus); });
+    });
+  };
+  if (body.classList.contains('admissions-page')) {
+    // History owns section position on Back/Forward instead of a fragment URL.
+    if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual';
+    let initial = routeForPath(window.location.pathname);
+    const legacy = window.location.hash.slice(1);
+    if (initial && (sectionIDs.has(legacy) || legacy === 'home')) {
+      const path = legacy === 'home' ? homePath : `${homePath}${legacy}/`;
+      window.history.replaceState(window.history.state, '', path + window.location.search);
+      initial = routeForPath(path);
+    } else if (initial?.language === language && initial.path !== window.location.pathname) {
+      window.history.replaceState(window.history.state, '', initial.path + window.location.search + window.location.hash);
+    }
+    if (initial?.language === language && initial.id !== 'home') queueSectionScroll(initial.id);
+    window.addEventListener('popstate', () => {
+      setMenu(false);
+      const route = routeForPath(window.location.pathname);
+      if (route?.language === language) queueSectionScroll(route.id);
+    });
+    document.addEventListener('click', event => {
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const link = event.target instanceof Element ? event.target.closest('a[href]') : null;
+      if (!link || link.hasAttribute('download') || (link.target && link.target !== '_self')) return;
+      if (link.classList.contains('skip-link')) {
+        event.preventDefault();
+        setMenu(false);
+        queueSectionScroll('main', 'instant', true);
+        return;
+      }
+      const destination = new URL(link.href, window.location.href);
+      if (destination.origin !== window.location.origin) return;
+      const route = routeForPath(destination.pathname);
+      if (!route || route.language !== language || destination.hash) return;
+      event.preventDefault();
+      setMenu(false);
+      const path = route.path + (destination.search || window.location.search);
+      if (path !== window.location.pathname + window.location.search) window.history.pushState(window.history.state, '', path);
+      queueSectionScroll(route.id, 'smooth', true);
+    });
+  }
+  // End clean section routes.
 
   // FAQ decision support (home pages only).
   // Without JavaScript, every original answer remains visible in the HTML.

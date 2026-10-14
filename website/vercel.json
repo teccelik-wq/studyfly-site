@@ -1,0 +1,46 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    {
+      "source": "/:section(why-us|how-it-works|services|results|faq|contact){/}?",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/ar/:section(why-us|how-it-works|services|results|faq|contact){/}?",
+      "destination": "/ar/index.html"
+    },
+    {
+      "source": "/ru/:section(why-us|how-it-works|services|results|faq|contact){/}?",
+      "destination": "/ru/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/:section(why-us|how-it-works|services|results|faq|contact){/}?",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, follow"
+        }
+      ]
+    },
+    {
+      "source": "/ar/:section(why-us|how-it-works|services|results|faq|contact){/}?",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, follow"
+        }
+      ]
+    },
+    {
+      "source": "/ru/:section(why-us|how-it-works|services|results|faq|contact){/}?",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, follow"
+        }
+      ]
+    }
+  ]
+}
